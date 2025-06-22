@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import api from '../api';
 import { useHistory } from 'react-router-dom';
+import { TextField, Button, Paper, Typography, Alert } from '@mui/material';
 
 const Login: React.FC<{ onLogin: () => void }> = ({ onLogin }) => {
   const [username, setUsername] = useState('');
@@ -23,27 +24,38 @@ const Login: React.FC<{ onLogin: () => void }> = ({ onLogin }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ maxWidth: 300, margin: '2rem auto' }}>
-      <h2>Login</h2>
-      <input
-        type="text"
-        placeholder="Username"
-        value={username}
-        onChange={e => setUsername(e.target.value)}
-        required
-        style={{ width: '100%', marginBottom: 8 }}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={e => setPassword(e.target.value)}
-        required
-        style={{ width: '100%', marginBottom: 8 }}
-      />
-      <button type="submit" style={{ width: '100%' }}>Login</button>
-      {error && <div style={{ color: 'red', marginTop: 8 }}>{error}</div>}
-    </form>
+    <Paper elevation={3} sx={{ maxWidth: 350, mx: 'auto', mt: 6, p: 3 }}>
+      <Typography variant="h5" align="center" gutterBottom>Login</Typography>
+      <form onSubmit={handleSubmit}>
+        <TextField
+          label="Username"
+          value={username}
+          onChange={e => setUsername(e.target.value)}
+          required
+          fullWidth
+          margin="normal"
+        />
+        <TextField
+          label="Password"
+          type="password"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+          required
+          fullWidth
+          margin="normal"
+        />
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          fullWidth
+          sx={{ mt: 2 }}
+        >
+          Login
+        </Button>
+        {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
+      </form>
+    </Paper>
   );
 };
 

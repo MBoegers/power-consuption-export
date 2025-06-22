@@ -3,6 +3,7 @@ import api from '../api';
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid,
 } from 'recharts';
+import { Box, Button, TextField, Typography, Alert, CircularProgress } from '@mui/material';
 
 interface PowerRecord {
   timestamp: string;
@@ -32,42 +33,50 @@ const ExportChart: React.FC = () => {
   };
 
   return (
-    <div style={{ maxWidth: 900, margin: '2rem auto' }}>
-      <h2>Visualize Power Consumption</h2>
-      <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
-        <label htmlFor="from">From</label>
-        <input
-          id="from"
+    <Box sx={{ maxWidth: 900, mx: 'auto', my: 2 }}>
+      <Typography variant="h6" gutterBottom>Visualize Power Consumption</Typography>
+      <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
+        <TextField
+          label="Von"
           type="datetime-local"
           value={from}
           onChange={e => setFrom(e.target.value)}
-          required
+          InputLabelProps={{ shrink: true }}
+          fullWidth
+          color="primary"
         />
-        <label htmlFor="to">To</label>
-        <input
-          id="to"
+        <TextField
+          label="Bis"
           type="datetime-local"
           value={to}
           onChange={e => setTo(e.target.value)}
-          required
+          InputLabelProps={{ shrink: true }}
+          fullWidth
+          color="primary"
         />
-        <button onClick={handleLoad} disabled={loading || !from || !to}>
-          {loading ? 'Loading...' : 'Show Chart'}
-        </button>
-      </div>
-      {error && <div style={{ color: 'red' }}>{error}</div>}
+      </Box>
+      {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleLoad}
+        disabled={loading || !from || !to}
+        sx={{ mb: 2 }}
+      >
+        {loading ? <CircularProgress size={24} color="inherit" /> : 'Laden'}
+      </Button>
       {data.length > 0 && (
         <ResponsiveContainer width="100%" height={400}>
-          <BarChart data={data} margin={{ top: 16, right: 16, left: 16, bottom: 16 }}>
+          <BarChart data={data} margin={{ top: 16, right: 16, left: 0, bottom: 16 }}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="timestamp" tickFormatter={t => t.replace('T', ' ')} minTickGap={30} />
+            <XAxis dataKey="timestamp" tickFormatter={str => str.slice(0, 10)} />
             <YAxis />
             <Tooltip />
-            <Bar dataKey="consumption" fill="#1976d2" />
+            <Bar dataKey="consumption" fill="#428487" />
           </BarChart>
         </ResponsiveContainer>
       )}
-    </div>
+    </Box>
   );
 };
 

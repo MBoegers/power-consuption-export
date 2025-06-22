@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import api from '../api';
+import { Box, Button, TextField, Typography, Alert, CircularProgress } from '@mui/material';
 
 const ExportCsv: React.FC = () => {
   const [from, setFrom] = useState('');
@@ -30,31 +31,38 @@ const ExportCsv: React.FC = () => {
   };
 
   return (
-    <div style={{ maxWidth: 600, margin: '2rem auto' }}>
-      <h2>Export Power Consumption as CSV</h2>
-      <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
-        <label htmlFor="from">From</label>
-        <input
-          id="from"
+    <Box sx={{ maxWidth: 600, mx: 'auto', my: 2 }}>
+      <Typography variant="h6" gutterBottom>Export Power Consumption as CSV</Typography>
+      <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
+        <TextField
+          label="Von"
           type="datetime-local"
           value={from}
           onChange={e => setFrom(e.target.value)}
-          required
+          InputLabelProps={{ shrink: true }}
+          fullWidth
+          color="primary"
         />
-        <label htmlFor="to">To</label>
-        <input
-          id="to"
+        <TextField
+          label="Bis"
           type="datetime-local"
           value={to}
           onChange={e => setTo(e.target.value)}
-          required
+          InputLabelProps={{ shrink: true }}
+          fullWidth
+          color="primary"
         />
-        <button onClick={handleExport} disabled={loading || !from || !to}>
-          {loading ? 'Exporting...' : 'Export CSV'}
-        </button>
-      </div>
-      {error && <div style={{ color: 'red' }}>{error}</div>}
-    </div>
+      </Box>
+      {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleExport}
+        disabled={loading || !from || !to}
+      >
+        {loading ? <CircularProgress size={24} color="inherit" /> : 'Exportieren'}
+      </Button>
+    </Box>
   );
 };
 

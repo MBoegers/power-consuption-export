@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import api from '../api';
+import { Paper, Typography, Button, Box, Alert, LinearProgress } from '@mui/material';
 
 const Import: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -34,18 +35,37 @@ const Import: React.FC = () => {
   };
 
   return (
-    <div style={{ maxWidth: 600, margin: '2rem auto' }}>
-      <h2>Import Power Consumption Data (CSV)</h2>
-      <form onSubmit={handleImport}>
-        <label htmlFor="import-file">File</label>
-        <input id="import-file" type="file" accept=".csv" onChange={handleFileChange} required />
-        <button type="submit" disabled={loading || !file} style={{ marginLeft: 8 }}>
+    <Paper elevation={3} sx={{ maxWidth: 600, mx: 'auto', mt: 6, p: 3 }}>
+      <Typography variant="h5" gutterBottom>Import Power Consumption Data (CSV)</Typography>
+      <Box component="form" onSubmit={handleImport} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+        <Button
+          variant="outlined"
+          component="label"
+          color="primary"
+        >
+          Datei auswählen
+          <input
+            id="import-file"
+            type="file"
+            accept=".csv"
+            hidden
+            onChange={handleFileChange}
+            required
+          />
+        </Button>
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          disabled={loading || !file}
+        >
           {loading ? 'Importing...' : 'Import CSV'}
-        </button>
-      </form>
-      {message && <div style={{ color: 'green', marginTop: 8 }}>{message}</div>}
-      {error && <div style={{ color: 'red', marginTop: 8 }}>{error}</div>}
-    </div>
+        </Button>
+        {loading && <LinearProgress sx={{ mt: 1 }} />}
+        {message && <Alert severity="success">{message}</Alert>}
+        {error && <Alert severity="error">{error}</Alert>}
+      </Box>
+    </Paper>
   );
 };
 
