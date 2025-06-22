@@ -31,6 +31,20 @@ dependencies {
     testImplementation 'io.jsonwebtoken:jjwt:0.9.1'
 }
 
+task buildFrontend(type: Exec) {
+    workingDir 'frontend'
+    commandLine 'npm', 'install'
+    commandLine 'npm', 'run', 'build'
+}
+
+task copyFrontend(type: Copy) {
+    dependsOn buildFrontend
+    from('frontend/build')
+    into('src/main/resources/static')
+}
+
+processResources.dependsOn copyFrontend
+
 test {
     useJUnitPlatform()
 }
