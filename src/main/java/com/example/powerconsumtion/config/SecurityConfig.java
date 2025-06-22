@@ -4,6 +4,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -21,5 +23,11 @@ public class SecurityConfig {
                 .jwt();
         return http.build();
     }
-}
 
+    @Bean
+    public JwtDecoder jwtDecoder() {
+        // Symmetrischer Key für lokale JWT-Validierung (mind. 256 Bit)
+        String secret = "testtesttesttesttesttesttesttest";
+        return NimbusJwtDecoder.withSecretKey(new javax.crypto.spec.SecretKeySpec(secret.getBytes(), "HmacSHA256")).build();
+    }
+}
