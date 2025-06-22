@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import ExportCsv from './ExportCsv';
 import api from '../api';
 
@@ -25,6 +25,6 @@ describe('ExportCsv', () => {
     fireEvent.change(screen.getByLabelText(/from/i), { target: { value: '2024-01-01T00:00' } });
     fireEvent.change(screen.getByLabelText(/to/i), { target: { value: '2024-01-02T00:00' } });
     fireEvent.click(screen.getByRole('button', { name: /Export CSV/i }));
-    await waitFor(() => expect(screen.getByText(/Export failed/i)).toBeInTheDocument());
+    expect(await screen.findByText(/Export failed/i)).toBeInTheDocument();
   });
 });

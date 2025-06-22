@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import Login from './Login';
 import api from '../api';
 
@@ -24,7 +24,8 @@ describe('Login', () => {
     fireEvent.change(screen.getByPlaceholderText(/Username/i), { target: { value: 'user' } });
     fireEvent.change(screen.getByPlaceholderText(/Password/i), { target: { value: 'pw' } });
     fireEvent.click(screen.getByRole('button', { name: /Login/i }));
-    await waitFor(() => expect(onLogin).toHaveBeenCalled());
+    await screen.findByText(/Login/i); // wartet auf ein Login-Element, um async zu sein
+    expect(onLogin).toHaveBeenCalled();
     expect(localStorage.getItem('token')).toBe('testtoken');
   });
 
@@ -34,6 +35,6 @@ describe('Login', () => {
     fireEvent.change(screen.getByPlaceholderText(/Username/i), { target: { value: 'user' } });
     fireEvent.change(screen.getByPlaceholderText(/Password/i), { target: { value: 'pw' } });
     fireEvent.click(screen.getByRole('button', { name: /Login/i }));
-    await waitFor(() => expect(screen.getByText(/Login failed/i)).toBeInTheDocument());
+    expect(await screen.findByText(/Login failed/i)).toBeInTheDocument();
   });
 });

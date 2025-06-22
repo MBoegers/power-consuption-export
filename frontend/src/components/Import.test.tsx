@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import Import from './Import';
 import api from '../api';
 
@@ -24,7 +24,7 @@ describe('Import', () => {
     const file = new File(['timestamp,consumption\n2024-01-01 00:00:00,1.0'], 'test.csv', { type: 'text/csv' });
     fireEvent.change(screen.getByLabelText(/file/i), { target: { files: [file] } });
     fireEvent.click(screen.getByRole('button', { name: /Import CSV/i }));
-    await waitFor(() => expect(screen.getByText(/Import erfolgreich/i)).toBeInTheDocument());
+    expect(await screen.findByText(/Import erfolgreich/i)).toBeInTheDocument();
   });
 
   it('shows error message on failed import', async () => {
@@ -33,7 +33,6 @@ describe('Import', () => {
     const file = new File(['timestamp,consumption\n2024-01-01 00:00:00,1.0'], 'test.csv', { type: 'text/csv' });
     fireEvent.change(screen.getByLabelText(/file/i), { target: { files: [file] } });
     fireEvent.click(screen.getByRole('button', { name: /Import CSV/i }));
-    await waitFor(() => expect(screen.getByText(/Import failed/i)).toBeInTheDocument());
+    expect(await screen.findByText(/Import failed/i)).toBeInTheDocument();
   });
 });
-

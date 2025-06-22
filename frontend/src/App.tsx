@@ -2,7 +2,6 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect, Link as RouterLink, LinkProps as RouterLinkProps } from 'react-router-dom';
 import './App.css';
 import Login from './components/Login';
-import Export from './components/Export';
 import Import from './components/Import';
 import ExportCsvPage from './components/ExportCsvPage';
 import AnalysePage from './components/AnalysePage';
