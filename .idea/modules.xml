@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/PowerConsumtion.main.iml" filepath="$PROJECT_DIR$/.idea/modules/PowerConsumtion.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PowerConsumtion.test.iml" filepath="$PROJECT_DIR$/.idea/modules/PowerConsumtion.test.iml" />
     </modules>
   </component>
 </project>
